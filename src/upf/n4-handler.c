@@ -219,6 +219,7 @@ cleanup:
             cause_value, offending_ie_value);
 }
 
+// WE ANALYSE THIS SESSION MODIFICATION REQUEST
 void upf_n4_handle_session_modification_request(
         upf_sess_t *sess, ogs_pfcp_xact_t *xact,
         ogs_pfcp_session_modification_request_t *req)
@@ -246,6 +247,7 @@ void upf_n4_handle_session_modification_request(
         return;
     }
 
+    // CREATE PDR
     for (i = 0; i < OGS_MAX_NUM_OF_PDR; i++) {
          ogs_debug("TEST_DEBUG");
       	 created_pdr[i] = ogs_pfcp_handle_create_pdr(&sess->pfcp,
@@ -254,10 +256,13 @@ void upf_n4_handle_session_modification_request(
             break;
     }
     num_of_created_pdr = i;
+    ogs_debug("created pdr: %d",i);
     if (cause_value != OGS_PFCP_CAUSE_REQUEST_ACCEPTED)
         goto cleanup;
 
+    // UPDATE PDR
     for (i = 0; i < OGS_MAX_NUM_OF_PDR; i++) {
+        ogs_debug("TEST_DEBUG2");
         if (ogs_pfcp_handle_update_pdr(&sess->pfcp, &req->update_pdr[i],
                     &cause_value, &offending_ie_value) == NULL)
             break;
@@ -265,7 +270,9 @@ void upf_n4_handle_session_modification_request(
     if (cause_value != OGS_PFCP_CAUSE_REQUEST_ACCEPTED)
         goto cleanup;
 
+    // REMOVE PDR
     for (i = 0; i < OGS_MAX_NUM_OF_PDR; i++) {
+        ogs_debug("TEST_DEBUG3");
         if (ogs_pfcp_handle_remove_pdr(&sess->pfcp, &req->remove_pdr[i],
                 &cause_value, &offending_ie_value) == false)
             break;
@@ -273,7 +280,9 @@ void upf_n4_handle_session_modification_request(
     if (cause_value != OGS_PFCP_CAUSE_REQUEST_ACCEPTED)
         goto cleanup;
 
+    // CREATE FAR
     for (i = 0; i < OGS_MAX_NUM_OF_FAR; i++) {
+        ogs_debug("DEBUG_FAR");
         if (ogs_pfcp_handle_create_far(&sess->pfcp, &req->create_far[i],
                     &cause_value, &offending_ie_value) == NULL)
             break;
@@ -281,7 +290,9 @@ void upf_n4_handle_session_modification_request(
     if (cause_value != OGS_PFCP_CAUSE_REQUEST_ACCEPTED)
         goto cleanup;
 
+    // UPDATE FAR FLAG
     for (i = 0; i < OGS_MAX_NUM_OF_FAR; i++) {
+        ogs_debug("DEBUG_UPDATE_FAR_FLAG");
         if (ogs_pfcp_handle_update_far_flags(&sess->pfcp, &req->update_far[i],
                     &cause_value, &offending_ie_value) == NULL)
             break;
@@ -301,7 +312,9 @@ void upf_n4_handle_session_modification_request(
     ogs_list_for_each(&sess->pfcp.far_list, far)
         far->smreq_flags.value = 0;
 
+    // UPDATE FAR 
     for (i = 0; i < OGS_MAX_NUM_OF_FAR; i++) {
+        ogs_debug("DEBUG_UPDATE_FAR");
         if (ogs_pfcp_handle_update_far(&sess->pfcp, &req->update_far[i],
                     &cause_value, &offending_ie_value) == NULL)
             break;
@@ -309,7 +322,9 @@ void upf_n4_handle_session_modification_request(
     if (cause_value != OGS_PFCP_CAUSE_REQUEST_ACCEPTED)
         goto cleanup;
 
+    // REMOVE FAR
     for (i = 0; i < OGS_MAX_NUM_OF_FAR; i++) {
+        ogs_debug("DEBUG_REMOVE_FAR");
         if (ogs_pfcp_handle_remove_far(&sess->pfcp, &req->remove_far[i],
                 &cause_value, &offending_ie_value) == false)
             break;
@@ -317,11 +332,15 @@ void upf_n4_handle_session_modification_request(
     if (cause_value != OGS_PFCP_CAUSE_REQUEST_ACCEPTED)
         goto cleanup;
 
+
+    //URR User Reporting Rule: other information related to PDR
     upf_n4_handle_create_urr(sess, &req->create_urr[0], &cause_value, &offending_ie_value);
     if (cause_value != OGS_PFCP_CAUSE_REQUEST_ACCEPTED)
         goto cleanup;
 
+    // UPDATE URR
     for (i = 0; i < OGS_MAX_NUM_OF_URR; i++) {
+        ogs_debug("DEBUG_UPDATE_URR");
         if (ogs_pfcp_handle_update_urr(&sess->pfcp, &req->update_urr[i],
                     &cause_value, &offending_ie_value) == NULL)
             break;
@@ -329,7 +348,9 @@ void upf_n4_handle_session_modification_request(
     if (cause_value != OGS_PFCP_CAUSE_REQUEST_ACCEPTED)
         goto cleanup;
 
+    // REMOVE URR
     for (i = 0; i < OGS_MAX_NUM_OF_URR; i++) {
+        ogs_debug("DEBUG_REMOVE_URR");
         if (ogs_pfcp_handle_remove_urr(&sess->pfcp, &req->remove_urr[i],
                 &cause_value, &offending_ie_value) == false)
             break;
@@ -337,7 +358,9 @@ void upf_n4_handle_session_modification_request(
     if (cause_value != OGS_PFCP_CAUSE_REQUEST_ACCEPTED)
         goto cleanup;
 
+    // CREATE QER
     for (i = 0; i < OGS_MAX_NUM_OF_QER; i++) {
+        ogs_debug("DEBUG_CREATE_QER");
         if (ogs_pfcp_handle_create_qer(&sess->pfcp, &req->create_qer[i],
                     &cause_value, &offending_ie_value) == NULL)
             break;
@@ -348,6 +371,7 @@ void upf_n4_handle_session_modification_request(
         goto cleanup;
 
     for (i = 0; i < OGS_MAX_NUM_OF_QER; i++) {
+        ogs_debug("DEBUG_UPDATE_QER");
         if (ogs_pfcp_handle_update_qer(&sess->pfcp, &req->update_qer[i],
                     &cause_value, &offending_ie_value) == NULL)
             break;
@@ -356,6 +380,7 @@ void upf_n4_handle_session_modification_request(
         goto cleanup;
 
     for (i = 0; i < OGS_MAX_NUM_OF_QER; i++) {
+        ogs_debug("DEBUG_REMOVE_QER");
         if (ogs_pfcp_handle_remove_qer(&sess->pfcp, &req->remove_qer[i],
                 &cause_value, &offending_ie_value) == false)
             break;
@@ -377,13 +402,18 @@ void upf_n4_handle_session_modification_request(
 
     /* Setup GTP Node */
     ogs_list_for_each(&sess->pfcp.far_list, far) {
+        ogs_debug("DEBUG_SETUP_GTP_NODE");
         if (OGS_ERROR == ogs_pfcp_setup_far_gtpu_node(far)) {
             ogs_fatal("CHECK CONFIGURATION: upf.gtpu");
             ogs_fatal("ogs_pfcp_setup_far_gtpu_node() failed");
             goto cleanup;
         }
-        if (far->gnode)
+        // the struct far is defined in /lib/pfcp/context.h
+        if (far->gnode) {
+            //this function is defined in lib/pfcp/context.c
+            ogs_debug("DEBUG_IF_FAR_GNODE");
             ogs_pfcp_far_f_teid_hash_set(far);
+        }
     }
 
     for (i = 0; i < num_of_created_pdr; i++) {
@@ -391,8 +421,10 @@ void upf_n4_handle_session_modification_request(
         ogs_assert(pdr);
 
         /* Setup UPF-N3-TEID & QFI Hash */
-        if (pdr->f_teid_len)
+        if (pdr->f_teid_len) {
+            ogs_debug("DEBUG_IF_F_TEID_LEN");
             ogs_pfcp_object_teid_hash_set(OGS_PFCP_OBJ_SESS_TYPE, pdr, false);
+        }
     }
 
     /* Send Buffered Packet to gNB/SGW */
@@ -413,6 +445,7 @@ void upf_n4_handle_session_modification_request(
     return;
 
 cleanup:
+    ogs_debug("DEBUG_CLEANUP");
     ogs_pfcp_sess_clear(&sess->pfcp);
     ogs_pfcp_send_error_message(xact, sess ? sess->smf_n4_f_seid.seid : 0,
             OGS_PFCP_SESSION_MODIFICATION_RESPONSE_TYPE,
