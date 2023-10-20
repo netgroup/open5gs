@@ -250,6 +250,7 @@ void upf_n4_handle_session_modification_request(
     // CREATE PDR
     for (i = 0; i < OGS_MAX_NUM_OF_PDR; i++) {
          ogs_debug("TEST_DEBUG");
+         // ogs_pfcp_handle_create_pdr IN lib/pfcp/handler.c
       	 created_pdr[i] = ogs_pfcp_handle_create_pdr(&sess->pfcp,
             &req->create_pdr[i], NULL, &cause_value, &offending_ie_value);
         if (created_pdr[i] == NULL)

@@ -349,6 +349,8 @@ ogs_pfcp_pdr_t *ogs_pfcp_handle_create_pdr(ogs_pfcp_sess_t *sess,
     int i, len;
     int rv;
 
+    ogs_debug("ogs_pfcp_handle_create_pdr");
+
     ogs_assert(sess);
     ogs_assert(message);
 
@@ -422,6 +424,7 @@ ogs_pfcp_pdr_t *ogs_pfcp_handle_create_pdr(ogs_pfcp_sess_t *sess,
         if (message->pdi.sdf_filter[i].presence == 0)
             break;
 
+        ogs_debug("ogs_pfcp_parse_sdf_filter");
         len = ogs_pfcp_parse_sdf_filter(
                 &sdf_filter, &message->pdi.sdf_filter[i]);
         ogs_assert(message->pdi.sdf_filter[i].len == len);
@@ -468,6 +471,7 @@ ogs_pfcp_pdr_t *ogs_pfcp_handle_create_pdr(ogs_pfcp_sess_t *sess,
             ogs_cpystrn(flow_description,
                     sdf_filter.flow_description,
                     sdf_filter.flow_description_len+1);
+            ogs_debug("flow_descriptor %s",flow_description);
 
             rv = ogs_ipfw_compile_rule(&rule->ipfw, flow_description);
             ogs_assert(rv == OGS_OK);
