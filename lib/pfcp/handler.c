@@ -552,7 +552,7 @@ ogs_pfcp_pdr_t *ogs_pfcp_handle_create_pdr(ogs_pfcp_sess_t *sess,
     if (message->pdi.qfi.presence) {
         pdr->qfi = message->pdi.qfi.u8;
     }
-
+    ogs_debug("qfi %d", message->pdi.qfi.u8);
     memset(&pdr->ue_ip_addr, 0, sizeof(pdr->ue_ip_addr));
     pdr->ue_ip_addr_len = 0;
 
@@ -562,7 +562,7 @@ ogs_pfcp_pdr_t *ogs_pfcp_handle_create_pdr(ogs_pfcp_sess_t *sess,
         memcpy(&pdr->ue_ip_addr, message->pdi.ue_ip_address.data,
                 pdr->ue_ip_addr_len);
     }
-
+    ogs_debug( "ue ip_addr %d", message->pdi.ue_ip_address.data);
     for (i = 0; i < OGS_MAX_NUM_OF_FRAMED_ROUTES_IN_PDI; i++) {
         if (!pdr->ipv4_framed_routes || !pdr->ipv4_framed_routes[i])
             break;
