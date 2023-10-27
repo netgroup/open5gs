@@ -351,6 +351,9 @@ ogs_pfcp_pdr_t *ogs_pfcp_handle_create_pdr(ogs_pfcp_sess_t *sess,
 
     ogs_debug("ogs_pfcp_handle_create_pdr");
     ogs_debug(" pdr id %d", message->pdr_id.u16);
+    ogs_debug("pdr teid  data %d", message->pdi.local_f_teid.data);
+    
+        
     ogs_assert(sess);
     ogs_assert(message);
 
@@ -398,7 +401,7 @@ ogs_pfcp_pdr_t *ogs_pfcp_handle_create_pdr(ogs_pfcp_sess_t *sess,
             *offending_ie_value = OGS_PFCP_F_TEID_TYPE;
             return NULL;
         }
-
+        ogs_debug("pdr teid ipv4 %d", f_teid.ipv4);
         if (f_teid.ch == 0) {
             if (sereq_flags && sereq_flags->restoration_indication == 1) {
                 f_teid.teid = be32toh(f_teid.teid);
