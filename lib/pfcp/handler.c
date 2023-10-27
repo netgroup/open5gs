@@ -351,7 +351,7 @@ ogs_pfcp_pdr_t *ogs_pfcp_handle_create_pdr(ogs_pfcp_sess_t *sess,
 
     ogs_debug("ogs_pfcp_handle_create_pdr");
     ogs_debug(" pdr id %d", message->pdr_id.u16);
-    ogs_debug("pdr teid  data %d", message->pdi.local_f_teid.data);
+    ogs_debug("pdr teid  data %d", message->pdi.local_f_teid);
     
         
     ogs_assert(sess);
