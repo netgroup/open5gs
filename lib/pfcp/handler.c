@@ -563,7 +563,7 @@ ogs_pfcp_pdr_t *ogs_pfcp_handle_create_pdr(ogs_pfcp_sess_t *sess,
                 pdr->ue_ip_addr_len); 
         //print ip_addr
         struct in_addr ip_addr;
-        ip_addr.s_addr = htonl(pdr->ue_ip_addr.addr);
+        ip_addr.s_addr = pdr->ue_ip_addr.addr;
         char str[INET_ADDRSTRLEN];
         inet_ntop(AF_INET,&(ip_addr.s_addr),str,INET_ADDRSTRLEN);
         ogs_debug( "ue ip_addr -> %s\n", str);
