@@ -561,7 +561,7 @@ ogs_pfcp_pdr_t *ogs_pfcp_handle_create_pdr(ogs_pfcp_sess_t *sess,
             ogs_min(message->pdi.ue_ip_address.len, sizeof(pdr->ue_ip_addr));
         memcpy(&pdr->ue_ip_addr, message->pdi.ue_ip_address.data,
                 pdr->ue_ip_addr_len); 
-        ogs_debug( "ue ip_addr %s", (char *)pdr->ue_ip_addr);
+        ogs_debug( "ue ip_addr %s", (char)pdr->ue_ip_addr);
     }
    
     for (i = 0; i < OGS_MAX_NUM_OF_FRAMED_ROUTES_IN_PDI; i++) {
