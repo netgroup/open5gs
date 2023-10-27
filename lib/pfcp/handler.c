@@ -560,9 +560,10 @@ ogs_pfcp_pdr_t *ogs_pfcp_handle_create_pdr(ogs_pfcp_sess_t *sess,
         pdr->ue_ip_addr_len =
             ogs_min(message->pdi.ue_ip_address.len, sizeof(pdr->ue_ip_addr));
         memcpy(&pdr->ue_ip_addr, message->pdi.ue_ip_address.data,
-                pdr->ue_ip_addr_len);
+                pdr->ue_ip_addr_len); 
+        ogs_debug( "ue ip_addr %d", message->pdi.ue_ip_address.data);
     }
-    ogs_debug( "ue ip_addr %d", message->pdi.ue_ip_address.data);
+   
     for (i = 0; i < OGS_MAX_NUM_OF_FRAMED_ROUTES_IN_PDI; i++) {
         if (!pdr->ipv4_framed_routes || !pdr->ipv4_framed_routes[i])
             break;
