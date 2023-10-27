@@ -561,7 +561,12 @@ ogs_pfcp_pdr_t *ogs_pfcp_handle_create_pdr(ogs_pfcp_sess_t *sess,
             ogs_min(message->pdi.ue_ip_address.len, sizeof(pdr->ue_ip_addr));
         memcpy(&pdr->ue_ip_addr, message->pdi.ue_ip_address.data,
                 pdr->ue_ip_addr_len); 
-        ogs_debug( "ue ip_addr -> %u\n", pdr->ue_ip_addr.addr);
+        //print ip_addr
+        struct in_addr ip_addr;
+        ip_addr.s_addr = htonl(pdr->ue_ip_addr.addr);
+        char str[INET_ADDRSTRLEN];
+        inet_ntop(AF_INET,&(ip_addr.s_addr),str,INET_ADDRSTRLEN);
+        ogs_debug( "ue ip_addr -> %s\n", str);
     }
    
     for (i = 0; i < OGS_MAX_NUM_OF_FRAMED_ROUTES_IN_PDI; i++) {
