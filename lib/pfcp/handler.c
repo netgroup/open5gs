@@ -413,6 +413,7 @@ ogs_pfcp_pdr_t *ogs_pfcp_handle_create_pdr(ogs_pfcp_sess_t *sess,
                 }
             }
         }
+        ogs_debug("pdr teid ipv4 %x", f_teid.teid);
     }
 
     pdr->src_if = message->pdi.source_interface.u8;
